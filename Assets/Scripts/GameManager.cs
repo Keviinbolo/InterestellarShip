@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,40 +31,33 @@ public class GameManager : MonoBehaviour
         
     }
 
-    private void ActualitzarEstatGameManager()
+private void ActualitzarEstatGameManager()
+{
+    switch (_estatGameManager)
     {
-        switch (_estatGameManager)
-        {
-            case EstatsGameManager.Inici:
+        case EstatsGameManager.Inici:
+            _botoJugar.SetActive(true);
+            _nauJugador.SetActive(false);
+            _textPuntsJugador.GetComponent<TextPuntsJugador>().InicialitzarPunts();
+            _textPuntsJugador.SetActive(false);
+            break;
 
-                _botoJugar.SetActive(true);
-                _nauJugador.SetActive(false);
-                _textPuntsJugador.GetComponent<TextPuntsJugador>().InicialitzarPunts();
-                _textPuntsJugador.SetActive(false);
+        case EstatsGameManager.Jugant:
+            _botoJugar.SetActive(false);
+            _nauJugador.SetActive(true);
+            _textPuntsJugador.SetActive(true);
+            _generadorEnemics.GetComponent<GeneradorEnemics>().IniciGeneraEnemics();
+            break;
 
-                break;
-
-            case EstatsGameManager.Jugant:
-
-                _botoJugar.SetActive(false);
-                _nauJugador.SetActive(true);
-                _textPuntsJugador.SetActive(true);
-                _generadorEnemics.GetComponent<GeneradorEnemics>().IniciGeneraEnemics();
-
-                break;
-
-            case EstatsGameManager.GameOver:
-
-                _botoJugar.SetActive(false);
-                _nauJugador.SetActive(false);
-                _textPuntsJugador.SetActive(true);
-                _generadorEnemics.GetComponent<GeneradorEnemics>().AturaGenerarEnemics();
-
-                Invoke("PassarAEstatInici", 3f);
-
-                break;
-        }
+        case EstatsGameManager.GameOver:
+            _botoJugar.SetActive(false);
+            _nauJugador.SetActive(false);
+            _textPuntsJugador.SetActive(true);
+            _generadorEnemics.GetComponent<GeneradorEnemics>().AturaGenerarEnemics();
+            SceneManager.LoadScene("Resultats");  
+            break;
     }
+}
 
     public void setEstatGameManager(EstatsGameManager estatGameManager)
     {
@@ -87,5 +81,6 @@ public class GameManager : MonoBehaviour
     {
         _estatGameManager = EstatsGameManager.Inici;
         ActualitzarEstatGameManager();
+        ValorsGlobals.ReiniciarTot();
     }
 }
