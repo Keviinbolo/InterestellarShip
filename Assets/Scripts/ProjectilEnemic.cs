@@ -2,7 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class ProjectilEnemic : MonoBehaviour
 {
     private float _vel;
@@ -19,6 +20,8 @@ public class ProjectilEnemic : MonoBehaviour
         // Al cap de 1,5 segons, crida ContinuaUltimaDireccio.
         //  Això fa que _continuaUltimaDireccio es posi a true i
         //  el projectil deixi de seguir al jugador.
+      
+
     }
 
     // Update is called once per frame
@@ -70,6 +73,18 @@ public class ProjectilEnemic : MonoBehaviour
 
         transform.position = novaPos;
     }
+
+
+
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "ProjectilJugador")
+        {
+            
+        }
+    }
+
 
     private void OnTriggerEnter2D(Collider2D objecteTocat)
     {

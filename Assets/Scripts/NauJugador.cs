@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class NauJugador : MonoBehaviour
 {
@@ -9,12 +10,19 @@ public class NauJugador : MonoBehaviour
 
     public GameObject _ExplosioPrefab;
 
-    public GameManager _gameManager;
+   
+
+    public int VidaMaxima = 3;
+    private int _vidaActual;
+    public Image[] VidaImagen;
+
 
     // Start is called before the first frame update
     void Start()
     {
         _vel = 8f;
+        _vidaActual = VidaMaxima;
+        actualizarInterfaz();
     }
 
     // Update is called once per frame
@@ -57,19 +65,51 @@ public class NauJugador : MonoBehaviour
         transform.position = posNau;
     }
 
-    private void OnTriggerEnter2D(Collider2D objecteTocat)
+    void actualizarInterfaz()
     {
-        if (objecteTocat.tag == "Enemic")
+        for (int i = 0; i < VidaImagen.Length; i++)
+        {
+            VidaImagen[i].enabled = i < _vidaActual;
+        }
+        if (_vidaActual <= 0)
         {
             GameObject explosio = Instantiate(_ExplosioPrefab);
             explosio.transform.position = transform.position;
+            SceneManager.LoadScene("EscenaResultats");
+            
+        }
+    }
+
+
+    void RecibirDanyo(int danyo)
+    {
+        _vidaActual -= danyo;
+        //_vidaActual = Mathf.Clamp(_vidaActual, 0, VidaMaxima);
+        actualizarInterfaz();
+    }
+    void ObtenerVida(int vida)
+    {
+        _vidaActual += vida;
+       // _vidaActual = Mathf.Clamp(_vidaActual, 0, VidaMaxima);
+        actualizarInterfaz();
+    }
+    private void OnTriggerEnter2D(Collider2D objecteTocat)
+    {
+        if (objecteTocat.tag == "Enemic" || objecteTocat.tag == "ProjectilEnemic")
+        {
+
+            RecibirDanyo(1);
 
             // Gestió de vides jugador i canvi d'escena.
 
             // No cal destruir la nau del jugador si es canvia l'escena.
             //Destroy(gameObject);
-            
-            SceneManager.LoadScene("EscenaResultats");
+
+        } 
+        if (objecteTocat.tag == "Vida")
+        {
+            ObtenerVida(1);
+            Destroy(objecteTocat.gameObject);
         }
     }
 }
