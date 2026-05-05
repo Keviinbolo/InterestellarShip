@@ -262,8 +262,8 @@ RectTransform:
   - {fileID: 1266947595}
   - {fileID: 1164034820}
   - {fileID: 1402715652}
-  - {fileID: 2057962015}
   - {fileID: 1925716423}
+  - {fileID: 2057962015}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -583,7 +583,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ExplosioPrefab: {fileID: 360572281849487197, guid: 5ff334b04dab4184383989d0953ed1da, type: 3}
-  _gameManager: {fileID: 0}
+  VidaMaxima: 3
+  VidaImagen:
+  - {fileID: 1402715653}
+  - {fileID: 1925716424}
+  - {fileID: 2057962016}
 --- !u!50 &588607123
 Rigidbody2D:
   serializedVersion: 5
