@@ -10,7 +10,10 @@ public class PantallaResultats : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        puntsAconseguits.text = ValorsGlobals.puntsAconseguits;
+        if (ValorsGlobals.puntsAconseguits == "0")
+            puntsAconseguits.text = "Punts: " + ValorsGlobals.puntsAconseguits;
+        else
+            puntsAconseguits.text = ValorsGlobals.puntsAconseguits;
         videsRecollides.text = "Vides recollides: " + ValorsGlobals.videsRecollides.ToString();
     }
 
@@ -23,6 +26,6 @@ public class PantallaResultats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
