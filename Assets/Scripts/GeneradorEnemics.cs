@@ -5,20 +5,26 @@ using UnityEngine;
 public class GeneradorEnemics : MonoBehaviour
 {
     /*
-     * Crear múltiples objectes d'un:
+     * Crear mÃºltiples objectes d'un:
      * 
      * 1) Convertim l'objecte a copiar en Prefab.
      * 2) Creem un objecte buit a l'escena.
      * 3) Creem un script i l'assignem a l'objecte buit.
      * 4) En l'objecte buit:
-     *      - Creem un atribut de tipus GameObject i públic.
-     *      - Des de Unity, arrosseguem el Prefab sobre el camp públic anterior (el 
-     *              de tipus GameObject, que apareixerà a l'editor de Unity).
-     *      - Creem un mètode i hi fem el Instantiate (en l'exemple, el mètode "CreaEneemic").
-     *      - En el Start(), cridem el InvokeRepeteating().
+     *      - Creem un atribut de tipus GameObject i pÃºblic.
+     *      - Des de Unity, arrosseguem el Prefab sobre el camp pÃºblic anterior (el 
+     *              de tipus GameObject, que apareixerÃ  a l'editor de Unity).
+     *      - Creem un mÃ¨tode i hi fem el Instantiate (en l'exemple, el mÃ¨tode "CreaEnemic").
+     *      - En el Start(), cridem el InvokeRepeating().
      */
 
     public GameObject _NauEnemicPrefab;
+
+    // --- Enemic Especial (probabilitat) ---
+    [Header("Enemic Especial")]
+    public GameObject _NauEnemicEspecialPrefab;   // Prefab de la nau enemiga especial
+    [Range(0f, 1f)] public float probabilitatEspecial = 0.2f; // 0.2 = 20% de probabilitat
+    // ------------------------------------
 
     // Start is called before the first frame update
     void Start()
@@ -34,9 +40,7 @@ public class GeneradorEnemics : MonoBehaviour
 
     public void IniciGeneraEnemics()
     {
-        // Param1: Nom mètode a cridar.
-        // Param2: temps fins a cridar-se.
-        // Param3: temps entre repeticions
+        // Generem un enemic cada 1 segon, comenÃ§ant als 2 segons (enemics normals o especials)
         InvokeRepeating("CreaEnemic", 2f, 1f);
     }
 
@@ -47,14 +51,22 @@ public class GeneradorEnemics : MonoBehaviour
 
     private void CreaEnemic()
     {
-        GameObject nauEnemic = Instantiate(_NauEnemicPrefab);
+        // Decidim quin prefab utilitzar: normal o especial (si n'hi ha)
+        GameObject prefabAEscollir = _NauEnemicPrefab;
 
-        // Anem a situar en una posició aleatòria (però a dalt) l'enemic creat.
+        // Si tenim el prefab especial i la probabilitat es compleix, canviem al prefab especial
+        if (_NauEnemicEspecialPrefab != null && Random.value < probabilitatEspecial)
+        {
+            prefabAEscollir = _NauEnemicEspecialPrefab;
+        }
 
+        GameObject nauEnemic = Instantiate(prefabAEscollir);
+
+        // Anem a situar en una posiciÃ³ aleatÃ²ria (perÃ² a dalt) l'enemic creat.
         Vector2 minPantalla = Camera.main.ViewportToWorldPoint(new Vector2(0f, 0f));
         Vector2 maxPantalla = Camera.main.ViewportToWorldPoint(new Vector2(1f, 1f));
 
-        // Trobem posició x aleatoria entre el marge esquerra i dret de la pantalla.
+        // Trobem posiciÃ³ x aleatoria entre el marge esquerra i dret de la pantalla.
         float posicioHoritzontalComponentX = Random.Range(minPantalla.x, maxPantalla.x);
 
         nauEnemic.transform.position = new Vector2(posicioHoritzontalComponentX, maxPantalla.y);
