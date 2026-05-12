@@ -149,6 +149,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _NauEnemicPrefab: {fileID: 5607912510242031097, guid: f367cd5290d73a4418abaaad09139a2c, type: 3}
+  _NauEnemicEspecialPrefab: {fileID: 2558832206913251180, guid: c5bb76da54e0bef47b66a35d14f0bd8a, type: 3}
+  tempsEntreEspecials: 5
 --- !u!4 &68495631
 Transform:
   m_ObjectHideFlags: 0
