@@ -89,8 +89,12 @@ public class NauJugador : MonoBehaviour
     }
     void ObtenerVida(int vida)
     {
+        ValorsGlobals.videsRecollides++;
+        if (_vidaActual >= VidaMaxima)
+        {
+            return;
+        }
         _vidaActual += vida;
-       // _vidaActual = Mathf.Clamp(_vidaActual, 0, VidaMaxima);
         actualizarInterfaz();
     }
     private void OnTriggerEnter2D(Collider2D objecteTocat)
